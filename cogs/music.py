@@ -1,4 +1,4 @@
-import re
+import os
 import youtube_dl
 import requests
 import time
@@ -69,3 +69,32 @@ def song(client, message):
     except Exception as e:
         print(e)
         reply_message.edit("**Use Command: ** `/song name-of-song`")
+        return
+    
+    reply_message.edit(f"`Uploading {title}.`")
+
+    try:
+        with youtube_dl.YoutubeDL(ydl_options) as ydl:
+            info_dict = ydl.extract_info(link, download=False)
+            audio = ydl.prepare_filename(info_dict)
+            reply_message.edit(f"`Uploading {title}..`")
+            ydl.process_info(info_dict)
+        caption = f"🎶 <b>Title:</b> <a href='{link}'>{title}</a>\n⌚ <b>Duration:</b> <code>{duration}</code>\n📻 <b>Uploaded By:</b> <a href='https://t.me/chotu_music_bot'>Chotu Music Bot 👶🤘</a>"
+        secmul = 1
+        dur = 0
+        dur_arr = duration.split(":")
+
+        reply_message.edit(f"`Uploading {title}...`")
+        for i in range(len(dur_arr) - 1, -1, -1):
+            dur += int(dur_arr[i]) * secmul
+            secmul *= 60
+
+        reply_message.edit(f"`Uploading {title}....`")
+        message.reply_audio(audio, caption=caption, parse_mode='HTML', quote=False, title=title, duration=dur, thumb=thumbnail_name)
+        reply_message.delete()
+    except Exception as e:
+        reply_message.edit("**If you're reading this, make a issue on this <a href='https://github.com/Pragmatic-Programmers/chotu-telegram/issues'>Github Repo</a>**")
+        message.reply(f"Paste this in the issue:\n`Error: {e}\nSong Name: {title}\nLink: {link}\nDuration: {duration}\nAny other comment from your side:`")
+    
+    os.remove(audio)
+    os.remove(thumbnail_name)

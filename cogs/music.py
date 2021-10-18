@@ -36,7 +36,12 @@ def song(client, message):
     query = ""
     for i in message.command[1:]:
         query += ' ' + str(i)
-    
+
+    uploading_gif = message.reply_animation(
+        animation = "https://cdn.dribbble.com/users/849373/screenshots/2385564/upload-anim.gif",
+        reply_to_message_id = message.message_id,
+    )
+   
     reply_message = message.reply('`Hold on! fetching music details.`')
     ydl_options = {"format": "bestaudio[ext=m4a]"}
 
@@ -91,6 +96,7 @@ def song(client, message):
         reply_message.edit(f"`Uploading {title}....`")
         message.reply_audio(audio, caption=caption, parse_mode='HTML', quote=False, title=title, duration=dur, thumb=thumbnail_name)
         reply_message.delete()
+        uploading_gif.delete()
     except Exception as e:
         reply_message.edit("**If you're reading this, make a issue on this <a href='https://github.com/Pragmatic-Programmers/chotu-telegram/issues'>Github Repo</a>**")
         message.reply(f"Paste this in the issue:\n`Error: {e}\nSong Name: {title}\nLink: {link}\nDuration: {duration}\nAny other comment from your side:`")

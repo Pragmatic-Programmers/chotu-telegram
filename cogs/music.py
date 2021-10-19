@@ -36,11 +36,6 @@ def song(client, message):
     query = ""
     for i in message.command[1:]:
         query += ' ' + str(i)
-
-    uploading_gif = message.reply_animation(
-        animation = "https://cdn.dribbble.com/users/849373/screenshots/2385564/upload-anim.gif",
-        reply_to_message_id = message.message_id,
-    )
    
     reply_message = message.reply('`Hold on! fetching music details.`')
     ydl_options = {"format": "bestaudio[ext=m4a]"}
@@ -74,7 +69,12 @@ def song(client, message):
         print(e)
         reply_message.edit("**Use Command: ** `/song name-of-song`")
         return
-    
+
+    uploading_gif = message.reply_animation(
+    animation = "https://cdn.dribbble.com/users/849373/screenshots/2385564/upload-anim.gif",
+    reply_to_message_id = message.message_id,
+)
+
     reply_message.edit(f"`Uploading {title}.`")
 
     try:

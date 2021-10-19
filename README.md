@@ -6,3 +6,4 @@ Use Chotu: [Telegram](https://t.me/chotu_music_bot)
 - [Punit Choudhary](https://github.com/Punit-Choudhary)
 
 ### Contributers:
+- [Pranjay Singh](https://github.com/parnexcodes)
